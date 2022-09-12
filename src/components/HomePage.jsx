@@ -8,7 +8,7 @@ import OverviewCards from "./OverviewCards/OverviewCards";
 
 const HomePage = ({ products, users, orders }) => {
   return (
-    <div className="grid grid-rows-5 gap-2 h-screen">
+    <div className="grid grid-rows-5 gap-4 h-screen">
       <div>
         <OverviewCards products={products} users={users} orders={orders} />
       </div>

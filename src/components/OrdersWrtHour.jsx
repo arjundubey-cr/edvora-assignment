@@ -41,8 +41,8 @@ const OrdersWrtHour = ({ orders }) => {
   if (orderData) {
     return (
       <div className="mt-2 py-2 grid grid-cols-12 h-full p-3 border border-gray-100 shadow-xl rounded-xl">
-        <div className="col-span-10">
-          <ResponsiveContainer width="100%" height="100%">
+        <div className="col-span-12 md:col-span-8 xl:col-span-10">
+          <ResponsiveContainer width="95%" height="95%">
             <BarChart
               data={orderData}
               margin={{
@@ -75,7 +75,7 @@ const OrdersWrtHour = ({ orders }) => {
         </div>
         <div className="col-span-2 flex items-center justify-center flex-col">
           <div className="">Total Orders</div>
-          <div className="text-purple-700 text-5xl font-medium">
+          <div className="text-purple-700 text-2xl xl:text-5xl font-medium">
             {totalOrders}
           </div>
         </div>
