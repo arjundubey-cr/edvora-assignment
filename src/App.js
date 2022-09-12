@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { ResponsiveContainer } from "recharts";
 import useFetch from "./helpers/useFetch";
-import SalesWrtHour from "./components/SalesWrtHour";
-import OrdersWrtHour from "./components/OrdersWrtHour";
+import SideBar from "./components/SideBar";
+import HomePage from "./components/HomePage";
+import { Route, Routes } from "react-router-dom";
+import Products from "./components/Products";
+import OrdersPage from "./components/OrdersPage";
 
 export default function App() {
   const [orders, setOrders] = useState(null);
@@ -75,12 +77,25 @@ export default function App() {
 
   return (
     <div className="App">
-      <ResponsiveContainer height={400} width={600}>
-        <SalesWrtHour orders={orders} />
-      </ResponsiveContainer>
-      <ResponsiveContainer height={400} width={600}>
-        <OrdersWrtHour orders={orders} />
-      </ResponsiveContainer>
+      <div className="flex">
+        <SideBar />
+        <div className="h-screen flex-1 p-7">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <HomePage products={products} users={users} orders={orders} />
+              }
+            />
+
+            <Route path="/orders" element={<OrdersPage orders={orders} />} />
+            <Route
+              path="/products"
+              element={<Products products={productsData.data} />}
+            />
+          </Routes>
+        </div>
+      </div>
     </div>
   );
 }

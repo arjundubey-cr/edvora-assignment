@@ -8,20 +8,24 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  Label,
 } from "recharts";
 import ConvertToAmPm from "../helpers/ConverToAmPm";
 
 const SalesWrtHour = ({ orders }) => {
   const [salesData, setSalesData] = useState(null);
-
+  const [totalSales, setTotalSales] = useState(0);
   useEffect(() => {
     if (orders) {
       const sales_wrt_hour = {};
+      let total_sales_amount = 0;
       orders.forEach((element) => {
         const hour = element.normal_date.getHours();
         const salesValue = element.sale_amount;
+        total_sales_amount += element.sale_amount;
         sales_wrt_hour[hour] = sales_wrt_hour[hour] + salesValue || salesValue;
       });
+      setTotalSales(total_sales_amount);
       let sales_data = [];
       for (let i = 0; i < 24; i++) {
         const obj = {
@@ -37,30 +41,51 @@ const SalesWrtHour = ({ orders }) => {
 
   if (salesData) {
     return (
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart
-          width={500}
-          height={300}
-          data={salesData}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line
-            type="monotone"
-            dataKey="sales"
-            stroke="#8884d8"
-            activeDot={{ r: 8 }}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+      <div className="my-3 grid grid-cols-12 h-full pb-10 border border-gray-100 shadow-xl rounded-xl">
+        <div className="col-span-10">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart
+              data={salesData}
+              margin={{
+                top: 10,
+                right: 30,
+                left: 20,
+                bottom: 10,
+              }}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name">
+                <Label
+                  value="Time of Order"
+                  offset={-5}
+                  position="insideBottom"
+                />
+              </XAxis>
+              <YAxis>
+                <Label
+                  value="Sales Values"
+                  offset={0}
+                  position="insideLeft"
+                  angle={-90}
+                />
+              </YAxis>
+              <Tooltip />
+              <Legend verticalAlign="right" iconSize={16} />
+              <Line
+                type="monotone"
+                dataKey="sales"
+                stroke="#8884d8"
+                activeDot={{ r: 9 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="col-span-2 flex items-center justify-center flex-col">
+          <div className="">Total Sales Amount</div>
+          <div className="text-purple-700 text-4xl font-medium">
+            {totalSales}
+          </div>
+        </div>
+      </div>
     );
   }
 };
